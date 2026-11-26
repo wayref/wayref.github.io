@@ -41,6 +41,11 @@ def count_yaml_items(text):
     return sum(1 for ln in text.splitlines() if re.match(r"^\s*- ", ln))
 
 
+def count_list_items(text):
+    """Count Surge .lsr list entries (non-empty, non-comment lines)."""
+    return sum(1 for ln in text.splitlines() if ln.strip() and not ln.strip().startswith("#"))
+
+
 def count_section_items(text, start_key, end_keys):
     lines = text.splitlines()
     start = next(i for i, ln in enumerate(lines) if ln.startswith(start_key))
@@ -97,33 +102,43 @@ config = {
 print("config:", config)
 
 RULE_FILES = [
-    ("Apple.yaml", "Apple 全家桶", "Apple.yaml"),
-    ("China.yaml", "国内域名", "Repcz/China.yaml"),
-    ("Meta.yaml", "Meta 全家桶", "Meta.yaml"),
-    ("Emby.yaml", "Emby 相关", "Emby.yaml"),
     ("AI.yaml", "AI 服务", "hin0ka/AI.yaml"),
+    ("TikTok.yaml", "短视频", "Repcz/TikTok.yaml"),
+    ("Google.yaml", "搜索", "Repcz/Google.yaml"),
+    ("Twitter.yaml", "社交", "Repcz/Twitter.yaml"),
+    ("YouTube.yaml", "视频", "Repcz/YouTube.yaml"),
+    ("Telegram.yaml", "聊天", "Repcz/Telegram.yaml"),
+    ("GitHub.yaml", "代码托管", "Repcz/GitHub.yaml"),
+    ("Meta.yaml", "Meta 全家桶", "Meta.yaml"),
     ("国外网盘.yaml", "网盘服务", "国外网盘.yaml"),
+    ("SpeedtestInternational.lsr", "手动测速", "KeleeOne/SpeedtestInternational.lsr"),
+    ("Apple.yaml", "Apple 全家桶", "Apple.yaml"),
+    ("Emby.yaml", "Emby 相关", "Emby.yaml"),
+    ("腾讯.yaml", "腾讯", "Repcz/腾讯.yaml"),
+    ("百度.yaml", "百度", "Repcz/百度.yaml"),
+    ("阿里.yaml", "阿里", "Repcz/阿里.yaml"),
+    ("字节.yaml", "字节", "Repcz/字节.yaml"),
+    ("网易.yaml", "网易", "Repcz/网易.yaml"),
+    ("三网.yaml", "三网", "Repcz/三网.yaml"),
+    ("China.yaml", "国内域名", "Repcz/China.yaml"),
+    ("内网.yaml", "内网", "Repcz/内网.yaml"),
 ]
 rules = []
 for fname, label, path in RULE_FILES:
     text = fetch(raw_url("Egern-Rule-Set", path))
+    count = count_list_items(text) if path.endswith(".lsr") else count_yaml_items(text)
     rules.append({"file": fname, "label": label, "path": path,
-                  "count": count_yaml_items(text)})
+                  "count": count})
 print("rules:", [(r["file"], r["count"]) for r in rules])
 
 FOREIGN_RULE_FILES = [
     ("Netflix.yaml", "奈飞", "Repcz/Netflix.yaml"),
     ("Disney.yaml", "迪士尼", "Repcz/Disney.yaml"),
     ("Spotify.yaml", "音乐", "Repcz/Spotify.yaml"),
-    ("YouTube.yaml", "视频", "Repcz/YouTube.yaml"),
     ("HBO.yaml", "流媒体", "Repcz/HBO.yaml"),
     ("PrimeVideo.yaml", "流媒体", "Repcz/PrimeVideo.yaml"),
     ("Hulu.yaml", "流媒体", "Repcz/Hulu.yaml"),
     ("Amazon.yaml", "购物", "Repcz/Amazon.yaml"),
-    ("Google.yaml", "搜索", "Repcz/Google.yaml"),
-    ("Telegram.yaml", "聊天", "Repcz/Telegram.yaml"),
-    ("Twitter.yaml", "社交", "Repcz/Twitter.yaml"),
-    ("TikTok.yaml", "短视频", "Repcz/TikTok.yaml"),
 ]
 foreign_rules = []
 for fname, label, path in FOREIGN_RULE_FILES:
