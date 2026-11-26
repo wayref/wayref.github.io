@@ -199,7 +199,7 @@ h1 { font-size: 24px; font-weight: 800; margin-top: 12px; letter-spacing: 2px; b
 .step { display: flex; gap: 10px; font-size: 13px; color: #C7D8EC; line-height: 1.5; }
 .step b { color: #0A84FF; flex-shrink: 0; }
 .note { margin-top: 14px; font-size: 12px; color: #7C9CC4; line-height: 1.6; }
-.icon-grid { margin-top: 10px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.icon-grid { margin-top: 10px; display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px; }
 .icon-grid img { width: 100%; aspect-ratio: 1 / 1; object-fit: contain; border-radius: 10px; display: block; border: 1px solid #2A3B5C; }
 .icon-grid .cap { font-size: 10px; color: #7C9CC4; text-align: center; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .footer { color: #5B7A9E; font-size: 11px; margin-top: 20px; text-align: center; letter-spacing: 1px; }
@@ -352,9 +352,9 @@ write("Egern-Rule-Set/index.html", page("规则 · Egern 仓库", rules_body))
 
 # ---------- Egern-Icons ----------
 icons_sub = RAW.format(repo="Egern-Icons", path="Egern-Icons.json")
-PREVIEW_ICONS = ["OpenAI", "Meta", "Google", "Telegram", "YouTube", "TikTok",
-                 "X", "GitHub", "TencentCloud", "Spotify", "Instagram",
-                 "Facebook", "WhatsApp", "Hulu", "Twitch", "Reddit",
+PREVIEW_ICONS = ["OpenAI", "Meta", "Telegram", "YouTube", "TikTok",
+                 "X", "GitHub", "Spotify", "Instagram",
+                 "Facebook", "WhatsApp", "Hulu", "Reddit",
                  "PlayStation", "Xbox"]
 by_name = {it["name"]: it for it in icons}
 preview = [by_name[n] for n in PREVIEW_ICONS if n in by_name]
