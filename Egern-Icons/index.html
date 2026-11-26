@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>图标 · Egern 仓库</title>
+<style>
+@property --beam-angle { syntax: '<angle>'; initial-value: 0deg; inherits: false; }
+@keyframes beam-spin { to { --beam-angle: 360deg; } }
+@keyframes sweep-btn { 0% { left: -60%; opacity: 0; } 10% { opacity: 1; } 60% { left: 130%; opacity: 1; } 75%, 100% { left: 130%; opacity: 0; } }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #04070D; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+a { text-decoration: none; }
+.page { max-width: 560px; margin: 0 auto; padding: 18px 16px 20px; min-height: 100vh; background: radial-gradient(500px 180px at 50% -30px, rgba(10,132,255,.28), transparent 70%), linear-gradient(rgba(10,132,255,.03) 1px, transparent 1px), linear-gradient(90deg, rgba(10,132,255,.03) 1px, transparent 1px), #04070D; background-size: auto, 28px 28px, 28px 28px; }
+.hero { text-align: center; }
+.pill { display: inline-block; font-size: 11px; color: #64D2FF; border: 1px solid rgba(100,210,255,.4); background: rgba(10,132,255,.08); padding: 4px 12px; border-radius: 999px; }
+h1 { font-size: 24px; font-weight: 800; margin-top: 12px; letter-spacing: 2px; background: linear-gradient(90deg, #fff 15%, #0A84FF 55%, #64D2FF); -webkit-background-clip: text; background-clip: text; color: transparent; text-shadow: 0 0 24px rgba(10,132,255,.35); }
+.sub { color: #7C9CC4; font-size: 12px; margin-top: 7px; letter-spacing: 1px; }
+.divider { width: 120px; height: 2px; margin: 10px auto 0; background: linear-gradient(90deg, transparent, #0A84FF, #64D2FF, transparent); border-radius: 2px; }
+.cards { display: grid; gap: 12px; margin-top: 20px; }
+.beam { --beam-angle: 0deg; border: 1.5px solid transparent; border-radius: 14px; background: linear-gradient(#0B1220,#0B1220) padding-box, conic-gradient(from var(--beam-angle), rgba(10,132,255,.12) 0%, #0A84FF 12%, #64D2FF 22%, rgba(10,132,255,.12) 38%, rgba(10,132,255,.12) 62%, #0A84FF 74%, #64D2FF 84%, rgba(10,132,255,.12) 100%) border-box; animation: beam-spin 4s linear infinite; }
+.beam.d2 { animation-delay: -1s; } .beam.d3 { animation-delay: -2s; } .beam.d4 { animation-delay: -3s; } .beam.d5 { animation-delay: -2s; }
+.card-inner { padding: 14px; }
+.card-title { font-size: 17px; font-weight: 700; display: flex; align-items: center; justify-content: space-between; }
+.card-repo { font-size: 12px; color: #7C9CC4; margin-top: 3px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+.tag-rec { font-size: 11px; color: #0A84FF; border: 1px solid rgba(10,132,255,.5); background: rgba(10,132,255,.12); padding: 2px 8px; border-radius: 999px; }
+.desc { color: #C7D8EC; font-size: 13px; margin-top: 10px; line-height: 1.5; }
+.pills { margin-top: 10px; display: flex; gap: 6px; flex-wrap: wrap; }
+.pills span { font-size: 11px; background: rgba(10,132,255,.12); border: 1px solid rgba(10,132,255,.3); color: #9CC8FF; padding: 3px 9px; border-radius: 999px; }
+.actions { margin-top: 12px; display: flex; gap: 8px; }
+.btn-sweep { position: relative; overflow: hidden; display: inline-block; padding: 6px 14px; font-size: 12px; border-radius: 8px; border: 1px solid rgba(10,132,255,.55); background: rgba(10,132,255,.14); color: #EAF4FF; text-align: center; cursor: pointer; }
+.btn-sweep::after { content: ''; position: absolute; top: 0; bottom: 0; width: 36px; background: linear-gradient(105deg, transparent, rgba(100,210,255,.30) 50%, transparent); transform: skewX(-18deg); animation: sweep-btn 4s ease-in-out infinite; pointer-events: none; }
+.beam-btn { --beam-angle: 0deg; display: inline-block; border: 1.5px solid transparent; border-radius: 8px; background: linear-gradient(#0B1220,#0B1220) padding-box, conic-gradient(from var(--beam-angle), rgba(10,132,255,.15) 0%, #0A84FF 15%, #64D2FF 28%, rgba(10,132,255,.15) 45%, rgba(10,132,255,.15) 65%, #0A84FF 78%, #64D2FF 90%, rgba(10,132,255,.15) 100%) border-box; animation: beam-spin 4s linear infinite; animation-delay: -2s; padding: 6px 14px; font-size: 12px; color: #9CC8FF; }
+.copy-btn { --beam-angle: 0deg; display: block; width: 100%; margin-top: 12px; text-align: center; border: 1.5px solid transparent; border-radius: 8px; background: linear-gradient(rgba(10,132,255,.20),rgba(10,132,255,.12)) padding-box, conic-gradient(from var(--beam-angle), rgba(10,132,255,.15) 0%, #0A84FF 15%, #64D2FF 28%, rgba(10,132,255,.15) 45%, rgba(10,132,255,.15) 65%, #0A84FF 78%, #64D2FF 90%, rgba(10,132,255,.15) 100%) border-box; animation: beam-spin 4s linear infinite; animation-delay: -1s; padding: 8px 14px; font-size: 13px; color: #EAF4FF; cursor: pointer; }
+.back { display: inline-block; font-size: 12px; color: #9CC8FF; margin-bottom: 14px; }
+.sec-title { font-size: 15px; font-weight: 700; margin: 18px 0 8px; }
+.row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 11px 2px; border-bottom: 1px solid rgba(10,132,255,.12); }
+.row:last-child { border-bottom: none; }
+.row-name { font-size: 14px; font-weight: 600; }
+.row-sub { font-size: 12px; color: #7C9CC4; margin-top: 2px; line-height: 1.5; }
+.row-link { font-size: 12px; color: #9CC8FF; white-space: nowrap; }
+.copy-mini { font-size: 12px; color: #EAF4FF; border: 1px solid rgba(10,132,255,.55); background: rgba(10,132,255,.14); border-radius: 8px; padding: 5px 10px; white-space: nowrap; cursor: pointer; }
+.steps { margin-top: 8px; display: grid; gap: 8px; }
+.step { display: flex; gap: 10px; font-size: 13px; color: #C7D8EC; line-height: 1.5; }
+.step b { color: #0A84FF; flex-shrink: 0; }
+.note { margin-top: 14px; font-size: 12px; color: #7C9CC4; line-height: 1.6; }
+.icon-grid { margin-top: 10px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
+.icon-grid img { width: 100%; border-radius: 10px; display: block; }
+.icon-grid .cap { font-size: 10px; color: #7C9CC4; text-align: center; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.footer { color: #5B7A9E; font-size: 11px; margin-top: 20px; text-align: center; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+<div class="page">
+<a class="back" href="../">← 返回总站</a><div class="card-title" style="font-size:19px;"><span>图标</span></div><div class="card-repo">Egern-Icons</div><div class="desc">108×108 圆角方块图标</div><div class="copy-btn" onclick="copyText('https://raw.githubusercontent.com/wayref/Egern-Icons/main/Egern-Icons.json', this)">复制图标订阅链接</div><div class="sec-title">包含内容</div><div class="row"><div><div class="row-name">528 个图标</div><div class="row-sub">108×108 圆角方块，持续更新</div></div></div><div class="sec-title">预览</div><div class="icon-grid"><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/Airport.png" alt="Airport" loading="lazy"><div class="cap">Airport</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/Amazon.png" alt="Amazon" loading="lazy"><div class="cap">Amazon</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/AppStore.png" alt="AppStore" loading="lazy"><div class="cap">AppStore</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/AppleRadio.png" alt="AppleRadio" loading="lazy"><div class="cap">AppleRadio</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/Auto.png" alt="Auto" loading="lazy"><div class="cap">Auto</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/Available.png" alt="Available" loading="lazy"><div class="cap">Available</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/Clash.png" alt="Clash" loading="lazy"><div class="cap">Clash</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/ClashHako.png" alt="ClashHako" loading="lazy"><div class="cap">ClashHako</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/Cloudflare.png" alt="Cloudflare" loading="lazy"><div class="cap">Cloudflare</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/Clubhouse.png" alt="Clubhouse" loading="lazy"><div class="cap">Clubhouse</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/Discord.png" alt="Discord" loading="lazy"><div class="cap">Discord</div></div><div><img src="https://raw.githubusercontent.com/wayref/Egern-Icons/main/Color/Docker.png" alt="Docker" loading="lazy"><div class="cap">Docker</div></div></div><div class="note">Egern 会缓存图标订阅，更新后看不到新图标时，删掉订阅重新添加。</div><div style="margin-top:14px;"><a class="beam-btn" href="https://github.com/wayref/Egern-Icons">GitHub 仓库</a></div>
+<div class="footer">最后更新 2026-11-26 · 数字手动同步，仓库更新后更新</div>
+</div>
+
+<script>
+function copyText(t, el) {
+  function done() { if (el) { var o = el.textContent; el.textContent = '已复制'; setTimeout(function(){ el.textContent = o; }, 1500); } }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(t).then(done, function(){ fallback(); });
+  } else { fallback(); }
+  function fallback() {
+    var ta = document.createElement('textarea');
+    ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch(e) {}
+    document.body.removeChild(ta);
+  }
+}
+</script>
+
+</body>
+</html>
