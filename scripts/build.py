@@ -200,7 +200,7 @@ h1 { font-size: 24px; font-weight: 800; margin-top: 12px; letter-spacing: 2px; b
 .step b { color: #0A84FF; flex-shrink: 0; }
 .note { margin-top: 14px; font-size: 12px; color: #7C9CC4; line-height: 1.6; }
 .icon-grid { margin-top: 10px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px; }
-.icon-grid img { width: 100%; border-radius: 10px; display: block; border: 1px solid #2A3B5C; }
+.icon-grid img { width: 100%; aspect-ratio: 1 / 1; object-fit: contain; border-radius: 10px; display: block; border: 1px solid #2A3B5C; }
 .icon-grid .cap { font-size: 10px; color: #7C9CC4; text-align: center; margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .footer { color: #5B7A9E; font-size: 11px; margin-top: 20px; text-align: center; letter-spacing: 1px; }
 """
