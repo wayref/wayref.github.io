@@ -157,14 +157,15 @@ for fname, label, path in RULE_FILES:
                   "count": count})
 print("rules:", [(r["file"], r["count"]) for r in rules])
 
+# Meta 全家桶拆开的单服务规则，由 scripts/split-meta.py 从 Meta.yaml
+# 自动生成并随全家桶一起更新；旧的 Repcz 单服务文件不再使用
+# （Instagram 只有 4 条、Threads 只有 1 条、FaceBook 570 条多为仿冒域名）。
 FOREIGN_RULE_FILES = [
-    ("Netflix.yaml", "奈飞", "Repcz/Netflix.yaml"),
-    ("Disney.yaml", "迪士尼", "Repcz/Disney.yaml"),
-    ("Spotify.yaml", "音乐", "Repcz/Spotify.yaml"),
-    ("HBO.yaml", "流媒体", "Repcz/HBO.yaml"),
-    ("PrimeVideo.yaml", "流媒体", "Repcz/PrimeVideo.yaml"),
-    ("Hulu.yaml", "流媒体", "Repcz/Hulu.yaml"),
-    ("Amazon.yaml", "购物", "Repcz/Amazon.yaml"),
+    ("Facebook.yaml", "脸书", "Facebook.yaml"),
+    ("Instagram.yaml", "图片社交", "Instagram.yaml"),
+    ("WhatsApp.yaml", "聊天", "WhatsApp.yaml"),
+    ("Threads.yaml", "社交", "Threads.yaml"),
+    ("Messenger.yaml", "聊天", "Messenger.yaml"),
 ]
 foreign_rules = []
 for fname, label, path in FOREIGN_RULE_FILES:
