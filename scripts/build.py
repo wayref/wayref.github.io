@@ -111,6 +111,27 @@ for fname, label, path in RULE_FILES:
                   "count": count_yaml_items(text)})
 print("rules:", [(r["file"], r["count"]) for r in rules])
 
+FOREIGN_RULE_FILES = [
+    ("Netflix.yaml", "奈飞", "Repcz/Netflix.yaml"),
+    ("Disney.yaml", "迪士尼", "Repcz/Disney.yaml"),
+    ("Spotify.yaml", "音乐", "Repcz/Spotify.yaml"),
+    ("YouTube.yaml", "视频", "Repcz/YouTube.yaml"),
+    ("HBO.yaml", "流媒体", "Repcz/HBO.yaml"),
+    ("PrimeVideo.yaml", "流媒体", "Repcz/PrimeVideo.yaml"),
+    ("Hulu.yaml", "流媒体", "Repcz/Hulu.yaml"),
+    ("Amazon.yaml", "购物", "Repcz/Amazon.yaml"),
+    ("Google.yaml", "搜索", "Repcz/Google.yaml"),
+    ("Telegram.yaml", "聊天", "Repcz/Telegram.yaml"),
+    ("Twitter.yaml", "社交", "Repcz/Twitter.yaml"),
+    ("TikTok.yaml", "短视频", "Repcz/TikTok.yaml"),
+]
+foreign_rules = []
+for fname, label, path in FOREIGN_RULE_FILES:
+    text = fetch(raw_url("Egern-Rule-Set", path))
+    foreign_rules.append({"file": fname, "label": label, "path": path,
+                          "count": count_yaml_items(text)})
+print("foreign rules:", [(r["file"], r["count"]) for r in foreign_rules])
+
 icons_data = fetch_json(raw_url("Egern-Icons", "Egern-Icons.json"))
 icons = icons_data["icons"]
 print("icons:", len(icons))
@@ -310,17 +331,20 @@ cfg_body = (
 write("Egern-Config/index.html", page("懒人配置 · Egern 仓库", cfg_body))
 
 # ---------- Egern-Rule-Set ----------
-rows = []
-for r in rules:
-    url = raw_url("Egern-Rule-Set", r["path"])
-    rows.append(
-        f"<div class=\"row\"><div><div class=\"row-name\">{esc(r['file'])}</div>"
-        f"<div class=\"row-sub\">{esc(r['label'])} · {fmt(r['count'])} 条</div></div>"
-        f"<span class=\"copy-mini\" onclick=\"copyText('{url}', this)\">复制链接</span></div>"
-    )
+def rule_rows(rs):
+    out = []
+    for r in rs:
+        url = raw_url("Egern-Rule-Set", r["path"])
+        out.append(
+            f"<div class=\"row\"><div><div class=\"row-name\">{esc(r['file'])}</div>"
+            f"<div class=\"row-sub\">{esc(r['label'])} · {fmt(r['count'])} 条</div></div>"
+            f"<span class=\"copy-mini\" onclick=\"copyText('{url}', this)\">复制链接</span></div>"
+        )
+    return "".join(out)
 rules_body = (
-    detail_head("规则", "Egern-Rule-Set", "域名规则集，配置里引用的规则都在这，每天自动同步")
-    + "<div class=\"sec-title\">规则文件</div>" + "".join(rows)
+    detail_head("规则", "Egern-Rule-Set", "域名规则集，上面是懒人配置在用的规则，下面是国外热门服务的规则，复制链接就能引用，每天自动同步上游")
+    + "<div class=\"sec-title\">配置在用</div>" + rule_rows(rules)
+    + "<div class=\"sec-title\">国外热门规则</div>" + rule_rows(foreign_rules)
     + "<div class=\"note\">每天 02:00 UTC 自动同步上游，有变化自动更新。直接复制链接，在 Egern 里按需引用。</div>"
     f"<div style=\"margin-top:14px;\"><a class=\"beam-btn\" href=\"{gh_url('Egern-Rule-Set')}\">GitHub 仓库</a></div>"
 )
@@ -328,10 +352,19 @@ write("Egern-Rule-Set/index.html", page("规则 · Egern 仓库", rules_body))
 
 # ---------- Egern-Icons ----------
 icons_sub = RAW.format(repo="Egern-Icons", path="Egern-Icons.json")
+PREVIEW_ICONS = ["OpenAI", "Meta", "Google", "Telegram", "YouTube", "TikTok",
+                 "X", "GitHub", "TencentCloud", "Spotify", "Instagram",
+                 "Facebook", "WhatsApp", "Hulu", "Twitch", "Reddit",
+                 "PlayStation", "Xbox"]
+by_name = {it["name"]: it for it in icons}
+preview = [by_name[n] for n in PREVIEW_ICONS if n in by_name]
+missing = [n for n in PREVIEW_ICONS if n not in by_name]
+if missing:
+    print("preview icons missing:", missing)
 grid = "".join(
     f"<div><img src=\"{esc(it['url'])}\" alt=\"{esc(it['name'])}\" loading=\"lazy\">"
     f"<div class=\"cap\">{esc(it['name'])}</div></div>"
-    for it in icons[:12]
+    for it in preview
 )
 icons_body = (
     detail_head("图标", "Egern-Icons", "108×108 圆角方块图标")
