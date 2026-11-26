@@ -17,6 +17,8 @@ jobs:
         with:
           python-version: '3.12'
       - name: 重新生成页面
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 scripts/build.py .
       - name: 有变化就提交
         run: |

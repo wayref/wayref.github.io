@@ -22,7 +22,12 @@ TODAY = (datetime.now(timezone.utc) + timedelta(hours=8)).strftime("%Y-%m-%d")
 
 
 def fetch(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "showcase-sync"})
+    headers = {"User-Agent": "showcase-sync"}
+    if "api.github.com" in url:
+        token = os.environ.get("GITHUB_TOKEN")
+        if token:
+            headers["Authorization"] = f"Bearer {token}"
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=60) as resp:
         return resp.read().decode("utf-8")
 
