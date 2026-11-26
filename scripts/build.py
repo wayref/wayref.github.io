@@ -106,27 +106,49 @@ config = {
 }
 print("config:", config)
 
-RULE_FILES = [
-    ("AI.yaml", "AI 服务", "hin0ka/AI.yaml"),
-    ("TikTok.yaml", "短视频", "Repcz/TikTok.yaml"),
-    ("Google.yaml", "搜索", "Repcz/Google.yaml"),
-    ("Twitter.yaml", "社交", "Repcz/Twitter.yaml"),
-    ("YouTube.yaml", "视频", "Repcz/YouTube.yaml"),
-    ("Telegram.yaml", "聊天", "Repcz/Telegram.yaml"),
-    ("Microsoft.yaml", "微软全家桶", "Microsoft.yaml"),
-    ("Meta.yaml", "Meta 全家桶", "Meta.yaml"),
-    ("国外网盘.yaml", "网盘服务", "国外网盘.yaml"),
-    ("SpeedtestInternational.lsr", "手动测速", "KeleeOne/SpeedtestInternational.lsr"),
-    ("Apple.yaml", "Apple 全家桶", "Apple.yaml"),
-    ("腾讯.yaml", "腾讯", "Repcz/腾讯.yaml"),
-    ("百度.yaml", "百度", "Repcz/百度.yaml"),
-    ("阿里.yaml", "阿里", "Repcz/阿里.yaml"),
-    ("字节.yaml", "字节", "Repcz/字节.yaml"),
-    ("网易.yaml", "网易", "Repcz/网易.yaml"),
-    ("三网.yaml", "三网", "Repcz/三网.yaml"),
-    ("China.yaml", "国内域名", "Repcz/China.yaml"),
-    ("内网.yaml", "内网", "Repcz/内网.yaml"),
-]
+# "配置在用" is read from 懒人配置.yaml itself (config order, config
+# truth), not hardcoded: when the config gains, loses or renames a
+# rule, the next daily sync follows it automatically. Only rule_set
+# entries pointing at wayref/Egern-Rule-Set are listed; the .cn /
+# GEOIP / default tail rules have no rule file and are skipped.
+RULE_LABELS = {
+    "AI.yaml": "AI 服务", "TikTok.yaml": "短视频", "Google.yaml": "搜索",
+    "Twitter.yaml": "社交", "YouTube.yaml": "视频", "Telegram.yaml": "聊天",
+    "Microsoft.yaml": "微软全家桶", "Meta.yaml": "Meta 全家桶",
+    "国外网盘.yaml": "网盘服务", "SpeedtestInternational.lsr": "手动测速",
+    "Apple.yaml": "Apple 全家桶", "腾讯.yaml": "腾讯", "百度.yaml": "百度",
+    "阿里.yaml": "阿里", "字节.yaml": "字节", "网易.yaml": "网易",
+    "三网.yaml": "三网", "China.yaml": "国内域名", "内网.yaml": "内网",
+}
+RULE_PREFIX = ("https://raw.githubusercontent.com/wayref/Egern-Rule-Set"
+               "/main/")
+
+
+def parse_config_rules(text):
+    files = []
+    lines = text.splitlines()
+    i = 0
+    while i < len(lines):
+        if lines[i].startswith("- rule_set:"):
+            match = ""
+            j = i + 1
+            while j < len(lines) and lines[j].startswith("    "):
+                s = lines[j].strip()
+                if s.startswith("match:"):
+                    match = strip_quotes(s.split(":", 1)[1])
+                j += 1
+            if match.startswith(RULE_PREFIX):
+                path = match[len(RULE_PREFIX):]
+                fname = path.split("/")[-1]
+                label = RULE_LABELS.get(fname, fname.rsplit(".", 1)[0])
+                files.append((fname, label, path))
+            i = j
+        else:
+            i += 1
+    return files
+
+
+RULE_FILES = parse_config_rules(config_yaml)
 rules = []
 for fname, label, path in RULE_FILES:
     text = fetch(raw_url("Egern-Rule-Set", path))
